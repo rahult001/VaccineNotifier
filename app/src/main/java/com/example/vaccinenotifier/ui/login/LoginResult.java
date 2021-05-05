@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier.ui.login;
+package  com.example.vaccinenotifier.ui.login;
 
 import androidx.annotation.Nullable;
 

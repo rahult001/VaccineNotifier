@@ -5,20 +5,7 @@ package com.example.vaccinenotifier.data;
  */
 public class Result<T> {
     // hide the private constructor to limit subclass types (Success, Error)
-    private Result() {
-    }
-
-    @Override
-    public String toString() {
-        if (this instanceof Result.Success) {
-            Result.Success success = (Result.Success) this;
-            return "Success[data=" + success.getData().toString() + "]";
-        } else if (this instanceof Result.Error) {
-            Result.Error error = (Result.Error) this;
-            return "Error[exception=" + error.getError().toString() + "]";
-        }
-        return "";
-    }
+    private Result() {}
 
     // Success sub-class
     public final static class Success<T> extends Result {
@@ -44,5 +31,17 @@ public class Result<T> {
         public Exception getError() {
             return this.error;
         }
+    }
+
+    @Override
+    public String toString() {
+        if (this instanceof Result.Success) {
+            Result.Success success = (Result.Success) this;
+            return "Success[data=" + success.getData().toString() + "]";
+        } else if (this instanceof Result.Error) {
+            Result.Error error = (Result.Error) this;
+            return "Error[exception=" + error.getError().toString() + "]";
+        }
+        return "";
     }
 }

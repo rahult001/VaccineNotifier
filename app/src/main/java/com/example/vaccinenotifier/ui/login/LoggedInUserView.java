@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier.ui.login;
+package  com.example.vaccinenotifier.ui.login;
 
 /**
  * Class exposing authenticated user details to the UI.
