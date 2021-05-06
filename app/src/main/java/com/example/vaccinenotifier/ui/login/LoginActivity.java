@@ -1,16 +1,10 @@
 package  com.example.vaccinenotifier.ui.login;
 
-import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,24 +26,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.vaccinenotifier.R;
-import com.example.vaccinenotifier.data.model.SingletonConnection;
-import com.example.vaccinenotifier.ui.login.LoginViewModel;
-import com.example.vaccinenotifier.ui.login.LoginViewModelFactory;
 import com.example.vaccinenotifier.databinding.ActivityLoginBinding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
     private Map<String, Integer> stateMap = new HashMap<>();
     private Map<String, Integer> districtMap = new HashMap<>();
@@ -69,14 +54,6 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
      binding = ActivityLoginBinding.inflate(getLayoutInflater());
      setContentView(binding.getRoot());
-
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
-
-        final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
-        final ProgressBar loadingProgressBar = binding.loading;
 
 
         ctx = this.getApplicationContext();
