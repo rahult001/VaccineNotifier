@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Vaccine Notifier</string>
+    <string name="slot_available">Slot Available</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -9,9 +10,21 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="slot_found">"Based on your parameters available vaccine slot found"</string>
+    <string name="slot_book">"Book your slots at: https://selfregistration.cowin.gov.in/"</string>
+    <string name="support_us">"If you found this app helpful - https://www.buymeacoffee.com/rahul.tiwari"</string>
 
     <string-array name="age_array">
         <item>18-45 only</item>
         <item>All age group</item>
     </string-array>
+    <string name="title_activity_vaccine_slot">VaccineSlotActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
