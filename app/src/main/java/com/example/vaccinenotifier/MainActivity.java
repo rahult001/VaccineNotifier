@@ -1,9 +1,11 @@
-package  com.example.vaccinenotifier.ui.login;
+package com.example.vaccinenotifier;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.vaccinenotifier.NotifierService;
 import com.example.vaccinenotifier.R;
 import com.example.vaccinenotifier.databinding.ActivityLoginBinding;
 import org.json.JSONArray;
@@ -33,7 +36,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ActivityLoginBinding binding;
     private Map<String, Integer> stateMap = new HashMap<>();
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         final Spinner state_spinner = findViewById(R.id.state);
         final Spinner city_spinner = findViewById(R.id.city);
         final Spinner age_spinner =  findViewById(R.id.age);
+        final Button notify_btn = findViewById(R.id.notify);
 
         // Creates the Volley request queue
         requestQueue = Volley.newRequestQueue(this);
@@ -201,12 +205,25 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedAge = (String) parent.getItemAtPosition(position);
-                Log.println(Log.INFO, "VaccineNotifierrrrr", "selectedCity: "+selectedAge);
+                Log.println(Log.INFO, "VaccineNotifierrrrr", "selectedAge: "+selectedAge);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        notify_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent serviceIntent = new Intent(ctx, NotifierService.class);
+                serviceIntent.putExtra("selectedStateId", selectedStateId);
+                serviceIntent.putExtra("selectedState", selectedState);
+                serviceIntent.putExtra("selectedCityId", selectedCityId);
+                serviceIntent.putExtra("selectedCity", selectedCity);
+                serviceIntent.putExtra("selectedAge", selectedAge);
+                ContextCompat.startForegroundService(ctx, serviceIntent);
             }
         });
     }

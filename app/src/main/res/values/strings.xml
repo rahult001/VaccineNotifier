@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Vaccine Notifier</string>
+    <string name="slot_available">Slot Available</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -9,6 +10,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="slot_found">"Based on your parameters available vaccine slot found"</string>
+    <string name="slot_book">"Book your slots at: https://selfregistration.cowin.gov.in/"</string>
+    <string name="support_us">"If you found this app helpful - https://www.buymeacoffee.com/rahul.tiwari"</string>
 
     <string-array name="age_array">
         <item>18-45 only</item>
