@@ -172,7 +172,7 @@ public class NotifierService extends Service {
 
             //TODO Notify the user of available slot
             if (availSlots.size() > 1) {
-                Intent notificationIntent = new Intent(getApplicationContext(), SlotAvailableActivity.class);
+                Intent notificationIntent = new Intent(getApplicationContext(), VacineSlotActivity.class);
                 notificationIntent.putExtra("availSlotsArray", availSlots.toArray());
                 notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -235,7 +235,7 @@ public class NotifierService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx,
                 0, notificationIntent, 0);
-        Notification notification = new NotificationCompat.Builder(ctx, CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(ctx, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("Checking available slots every 10 mins")
                 .setContentText(userParams.getSelectedState()+"-"+userParams.getSelectedCity()+"-"+userParams.getSelectedAge())
                 .setSubText("checking slots")
@@ -259,7 +259,7 @@ public class NotifierService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startMyOwnForeground(UserParams userParams){
-        NotificationChannel chan = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
         chan.setLightColor(Color.BLUE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
