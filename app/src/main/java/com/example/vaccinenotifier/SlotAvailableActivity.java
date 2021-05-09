@@ -62,7 +62,7 @@ public class SlotAvailableActivity extends Activity {
                     }
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(this, "onNewIntent() availSlotsArray is empty", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "onNewIntent() availSlotsArray is empty", Toast.LENGTH_SHORT).show();
                 }
             }
         }
