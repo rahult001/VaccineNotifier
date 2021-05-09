@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -62,13 +63,7 @@ public class NotifierService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
-            // Normally we would do some work here, like download a file.
-
             UserParams userParams = (UserParams) msg.obj;
-
-            Log.println(Log.INFO, "VaccineNotifierService", "selectedState: "+userParams.getSelectedState());
-            Log.println(Log.INFO, "VaccineNotifierService", "selectedCity: "+userParams.getSelectedCity());
-            Log.println(Log.INFO, "VaccineNotifierService", "selectedAge: "+userParams.getSelectedAge());
 
             //Poll server every 10 mins and print result in logs
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -102,7 +97,7 @@ public class NotifierService extends Service {
                             @Override
                             public void onResponse(JSONObject response) {
 
-                                Toast.makeText(getApplicationContext(), "got district calendar resp", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), "got district calendar resp", Toast.LENGTH_SHORT).show();
                                 Log.println(Log.INFO, "VaccineNotifierService", "Got response from url: "+districtCalUrl);
                                 try {
                                     JSONArray centersJson = (JSONArray) response.get("centers");
@@ -123,9 +118,9 @@ public class NotifierService extends Service {
                                             String vaccine = sessionJson.getString("vaccine");
 
                                             if(availCapacity > 0 && minAgeLimit <= finalAgeLimit) {
-                                                availSlots.add(centerName+":"+centerAddr+":"+" Age="+minAgeLimit+"; Capacity="+availCapacity+"; Date="+date+"; Vaccine="+vaccine);
+                                                availSlots.add(centerName.toUpperCase()+";"+" Pincode="+pincode+";"+" Age="+minAgeLimit+"; Capacity="+availCapacity+"; Date="+date);
                                                 Log.println(Log.INFO, "VaccineNotifierService", "############ SLOT FOUND #################");
-                                                Log.println(Log.INFO, "VaccineNotifierService", centerName+":"+centerAddr+":"+" Age="+minAgeLimit+"; Capacity="+availCapacity+"; Date="+date+"; Vaccine="+vaccine);
+                                                Log.println(Log.INFO, "VaccineNotifierService", centerName.toUpperCase()+":"+centerAddr+":"+" Age="+minAgeLimit+"; Capacity="+availCapacity+"; Date="+date+"; Vaccine="+vaccine);
                                             }
                                         }
                                     }
@@ -186,11 +181,18 @@ public class NotifierService extends Service {
                         .setPriority(NotificationManager.IMPORTANCE_HIGH)
                         .setCategory(Notification.CATEGORY_SERVICE)
                         .setContentIntent(pendingIntent)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                         .setAutoCancel(true)
                         .build();
 
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(NOTIF_ID, notification);
+
+                //Stop the foreground service
+                //stopSelf(NOTIF_ID);
+                stopForeground(false);
+                //stopSelf();
             }
 
         }
@@ -216,7 +218,7 @@ public class NotifierService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
 
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
@@ -240,14 +242,15 @@ public class NotifierService extends Service {
                 .setContentText(userParams.getSelectedState()+"-"+userParams.getSelectedCity()+"-"+userParams.getSelectedAge())
                 .setSubText("checking slots")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setPriority(NotificationManager.IMPORTANCE_DEFAULT)
+                .setPriority(NotificationManager.IMPORTANCE_HIGH)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .setContentIntent(pendingIntent)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setAutoCancel(true)
                 .build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            startMyOwnForeground(userParams);
+            startMyOwnForeground(notification);
         else
             startForeground(NOTIF_ID, notification);
 
@@ -258,8 +261,8 @@ public class NotifierService extends Service {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void startMyOwnForeground(UserParams userParams){
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+    private void startMyOwnForeground(Notification notification){
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
         chan.setLightColor(Color.BLUE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -269,18 +272,6 @@ public class NotifierService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Checking available slots every 10 mins")
-                .setContentText(userParams.getSelectedState()+"-"+userParams.getSelectedCity()+"-"+userParams.getSelectedAge())
-                .setSubText("checking slots")
-                .setPriority(NotificationManager.IMPORTANCE_DEFAULT)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .build();
         startForeground(NOTIF_ID, notification);
     }
 
@@ -292,6 +283,6 @@ public class NotifierService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
     }
 }
