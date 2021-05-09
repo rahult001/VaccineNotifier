@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 selectedState = parent.getItemAtPosition(position).toString();
                 selectedStateId = stateMap.get(selectedState);
 
-                Log.println(Log.INFO, "VaccineNotifierrrrr", "selectedState: "+selectedState+", selectedStateId: "+selectedStateId);
+                Log.println(Log.INFO, "VaccineNotifier", "selectedState: "+selectedState+", selectedStateId: "+selectedStateId);
 
                 //Call endpoint https://cdn-api.co-vin.in/api/v2/admin/location/districts/{state_id}
                 //and populate city spinner based on district_id, district_name
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 serviceIntent.putExtra("selectedCity", selectedCity);
                 serviceIntent.putExtra("selectedAge", selectedAge);
                 ContextCompat.startForegroundService(ctx, serviceIntent);
-                Toast.makeText(ctx, "You can exit the application, you will be notified when available slot shows up based on your parameters", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "Notification service started", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 ctx.stopService(new Intent(ctx, NotifierService.class));
+                Toast.makeText(ctx, "Notification service stopped", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -24,9 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SlotAvailableActivity"
-            android:label="@string/slot_available" />
 
         <service android:name=".NotifierService" />
     </application>
