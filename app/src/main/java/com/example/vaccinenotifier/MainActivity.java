@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
      binding = ActivityLoginBinding.inflate(getLayoutInflater());
      setContentView(binding.getRoot());
@@ -216,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 serviceIntent.putExtra("selectedCity", selectedCity);
                 serviceIntent.putExtra("selectedAge", selectedAge);
                 ContextCompat.startForegroundService(ctx, serviceIntent);
+                Toast.makeText(ctx, "You can exit the application, you will be notified when available slot shows up based on your parameters", Toast.LENGTH_LONG).show();
             }
         });
 
