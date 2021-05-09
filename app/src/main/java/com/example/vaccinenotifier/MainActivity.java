@@ -10,16 +10,10 @@ import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,8 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vaccinenotifier.NotifierService;
-import com.example.vaccinenotifier.R;
 import com.example.vaccinenotifier.databinding.ActivityLoginBinding;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final Spinner city_spinner = findViewById(R.id.city);
         final Spinner age_spinner =  findViewById(R.id.age);
         final Button notify_btn = findViewById(R.id.notify);
+        final Button stop_notify_btn = findViewById(R.id.stop_notify);
 
         // Creates the Volley request queue
         requestQueue = Volley.newRequestQueue(this);
@@ -130,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             @Override
                             public void onResponse(JSONObject response) {
                                 districtMap = new HashMap<>();
-                                Toast.makeText(getApplicationContext(), "resp", Toast.LENGTH_SHORT).show();
                                 try {
                                     JSONArray districtsJson = (JSONArray) response.get("districts");
                                     for(int i=0; i<districtsJson.length();i++) {
@@ -226,11 +218,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 ContextCompat.startForegroundService(ctx, serviceIntent);
             }
         });
+
+        stop_notify_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctx.stopService(new Intent(ctx, NotifierService.class));
+            }
+        });
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //Toast.makeText(getApplicationContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

@@ -56,6 +56,8 @@ public class VacineSlotActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "onNewIntent() availSlotsArray is empty", Toast.LENGTH_SHORT).show();
                 }
+
+                getApplicationContext().stopService(new Intent(getApplicationContext(), NotifierService.class));
             }
         }
     }
