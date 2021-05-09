@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier;
+package com.covid.vaccinenotifier;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,7 +16,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 import android.os.Process;
 
 import androidx.annotation.RequiresApi;
@@ -29,7 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vaccinenotifier.data.model.UserParams;
+import com.covid.vaccinenotifier.data.model.UserParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,8 +40,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.example.vaccinenotifier.App.CHANNEL_ID;
 
 public class NotifierService extends Service {
 

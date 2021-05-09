@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier;
+package com.covid.vaccinenotifier;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vaccinenotifier.databinding.ActivityLoginBinding;
+import com.covid.vaccinenotifier.databinding.ActivityLoginBinding;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
