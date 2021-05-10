@@ -22,8 +22,10 @@ OR
 
 
 #App Screenshots
-WhatsApp Image 2021-05-10 at 2.58.04 AM (2).jpeg
-WhatsApp Image 2021-05-10 at 2.58.04 AM (3).jpeg
-WhatsApp Image 2021-05-10 at 2.58.04 AM.jpeg
-WhatsApp Image 2021-05-10 at 2.58.04 AM (4).jpeg
-WhatsApp Image 2021-05-10 at 2.58.04 AM (1).jpeg
+
+![image](https://user-images.githubusercontent.com/7280275/117719514-1dcfd700-b1fb-11eb-97c5-037df19710ed.png)
+![image](https://user-images.githubusercontent.com/7280275/117719563-2a542f80-b1fb-11eb-8d53-86ad46db9fbc.png)
+![image](https://user-images.githubusercontent.com/7280275/117719601-37711e80-b1fb-11eb-92e0-6641f7fbef94.png)
+![image](https://user-images.githubusercontent.com/7280275/117719627-3dff9600-b1fb-11eb-9109-0aa5bc0179c4.png)
+![image](https://user-images.githubusercontent.com/7280275/117719648-43f57700-b1fb-11eb-83ea-72bd6244e3da.png)
+
