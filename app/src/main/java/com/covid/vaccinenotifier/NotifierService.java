@@ -8,7 +8,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -181,7 +183,7 @@ public class NotifierService extends Service {
                         .setPriority(NotificationManager.IMPORTANCE_HIGH)
                         .setCategory(Notification.CATEGORY_SERVICE)
                         .setContentIntent(pendingIntent)
-                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setSound(Uri.parse("android.resource://"+ctx.getPackageName()+"/"+R.raw.notification))
                         .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                         .setAutoCancel(true)
                         .build();
@@ -245,7 +247,7 @@ public class NotifierService extends Service {
                 .setPriority(NotificationManager.IMPORTANCE_HIGH)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .setContentIntent(pendingIntent)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setSound(Uri.parse("android.resource://"+ctx.getPackageName()+"/"+R.raw.notification))
                 .setAutoCancel(true)
                 .build();
 
@@ -264,6 +266,12 @@ public class NotifierService extends Service {
     private void startMyOwnForeground(Notification notification){
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
         chan.setLightColor(Color.BLUE);
+        AudioAttributes att = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        chan.setSound(Uri.parse("android.resource://"+ctx.getPackageName()+"/"+R.raw.notification),att);
+        chan.setVibrationPattern(new long[]{0, 1000, 500, 1000});
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
