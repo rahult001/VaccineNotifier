@@ -48,7 +48,7 @@ public class NotifierService extends Service {
     private Looper serviceLooper;
     private ServiceHandler serviceHandler;
     RequestQueue requestQueue;
-    public static int SLEEPTIME = 1000*10;
+    public static int SLEEPTIME = 1000*60*10;
     public static final String NOTIFICATION_CHANNEL_ID = "vaccine.slot.available.notification";
     public static final String channelName = "vaccineNotificationChannel";
     public static final int NOTIF_ID = 111001100;
@@ -130,6 +130,37 @@ public class NotifierService extends Service {
                                     e.printStackTrace();
                                     Log.e("VaccineNotifierService", "JSON Error: "+e.toString());
                                 }
+
+                                //Notify the user of available slot
+                                if (availSlots.size() > 1) {
+                                    Log.println(Log.INFO, "VaccineNotifierService", "Available slot found will notify user now");
+                                    Intent notificationIntent = new Intent(getApplicationContext(), VacineSlotActivity.class);
+                                    notificationIntent.putExtra("availSlotsArray", availSlots.toArray());
+                                    notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(NotifierService.this, NOTIFICATION_CHANNEL_ID);
+                                    Notification notification = notificationBuilder.setOngoing(true)
+                                            .setSmallIcon(R.mipmap.ic_launcher)
+                                            .setContentTitle("Available vaccine slot found")
+                                            .setContentText(userParams.getSelectedState()+"-"+userParams.getSelectedCity()+"-"+userParams.getSelectedAge())
+                                            .setSubText("vaccine slot found")
+                                            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+                                            .setCategory(Notification.CATEGORY_SERVICE)
+                                            .setContentIntent(pendingIntent)
+                                            .setSound(Uri.parse("android.resource://"+ctx.getPackageName()+"/"+R.raw.notification))
+                                            .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                                            .setAutoCancel(true)
+                                            .build();
+
+                                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    mNotificationManager.notify(NOTIF_ID, notification);
+
+                                    //Stop the foreground service
+                                    //stopSelf(NOTIF_ID);
+                                    stopForeground(false);
+                                    //stopSelf();
+                                }
                             }
                         }, new Response.ErrorListener() {
 
@@ -158,45 +189,13 @@ public class NotifierService extends Service {
                 requestQueue.add(jsonObjectRequest);
 
                 try {
-                    Thread.sleep(SLEEPTIME);
+                        Thread.sleep(SLEEPTIME);
+                    Log.println(Log.INFO, "VaccineNotifierService", "Going to sleep for "+SLEEPTIME/60000+" mins");
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Log.e("VaccineNotifierService", "Thread sleep interrupted: "+e.toString());
+                        e.printStackTrace();
+                        Log.e("VaccineNotifierService", "Thread sleep interrupted: "+e.toString());
                 }
-
             }
-
-            //Notify the user of available slot
-            if (availSlots.size() > 1) {
-                Log.println(Log.INFO, "VaccineNotifierService", "Available slot found will notify user now");
-                Intent notificationIntent = new Intent(getApplicationContext(), VacineSlotActivity.class);
-                notificationIntent.putExtra("availSlotsArray", availSlots.toArray());
-                notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(NotifierService.this, NOTIFICATION_CHANNEL_ID);
-                Notification notification = notificationBuilder.setOngoing(true)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("Available vaccine slot found")
-                        .setContentText(userParams.getSelectedState()+"-"+userParams.getSelectedCity()+"-"+userParams.getSelectedAge())
-                        .setSubText("vaccine slot found")
-                        .setPriority(NotificationManager.IMPORTANCE_HIGH)
-                        .setCategory(Notification.CATEGORY_SERVICE)
-                        .setContentIntent(pendingIntent)
-                        .setSound(Uri.parse("android.resource://"+ctx.getPackageName()+"/"+R.raw.notification))
-                        .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                        .setAutoCancel(true)
-                        .build();
-
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(NOTIF_ID, notification);
-
-                //Stop the foreground service
-                //stopSelf(NOTIF_ID);
-                stopForeground(false);
-                //stopSelf();
-            }
-
         }
     }
 
