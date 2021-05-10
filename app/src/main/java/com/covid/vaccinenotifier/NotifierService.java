@@ -166,7 +166,7 @@ public class NotifierService extends Service {
 
             //Notify the user of available slot
             if (availSlots.size() > 1) {
-                Log.e("VaccineNotifierService", "Available slot found will notify user now");
+                Log.println(Log.INFO, "VaccineNotifierService", "Available slot found will notify user now");
                 Intent notificationIntent = new Intent(getApplicationContext(), VacineSlotActivity.class);
                 notificationIntent.putExtra("availSlotsArray", availSlots.toArray());
                 notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
