@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier;
+package com.covid.vaccinenotifier;
 
 import org.junit.Test;
 

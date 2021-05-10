@@ -14,6 +14,7 @@
     <string name="slot_found">"<b>Based on your parameters new vaccine slot found</b>"</string>
     <string name="slot_book">"<b>Book your slots at - https://selfregistration.cowin.gov.in</b>"</string>
     <string name="support_us">"<b><i>If you found this app helpful - https://www.buymeacoffee.com/rahul.tiwari</i></b>"</string>
+    <string name="appinfo"><b>Get App notification whenever slots are available for the selected parameters. App will run in the background and keep checking slot availability every 10 mins.</b></string>
 
     <string-array name="age_array">
         <item>18-45 only</item>

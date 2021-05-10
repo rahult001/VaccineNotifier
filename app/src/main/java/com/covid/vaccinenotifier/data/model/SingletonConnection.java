@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier.data.model;
+package com.covid.vaccinenotifier.data.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;

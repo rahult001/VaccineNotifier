@@ -1,4 +1,4 @@
-package com.example.vaccinenotifier;
+package com.covid.vaccinenotifier;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,7 +16,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 import android.os.Process;
 
 import androidx.annotation.RequiresApi;
@@ -29,7 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vaccinenotifier.data.model.UserParams;
+import com.covid.vaccinenotifier.data.model.UserParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,14 +41,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.vaccinenotifier.App.CHANNEL_ID;
-
 public class NotifierService extends Service {
 
     private Looper serviceLooper;
     private ServiceHandler serviceHandler;
     RequestQueue requestQueue;
-    public static int SLEEPTIME = 1000*5;
+    public static int SLEEPTIME = 1000*10;
     public static final String NOTIFICATION_CHANNEL_ID = "vaccine.slot.available.notification";
     public static final String channelName = "vaccineNotificationChannel";
     public static final int NOTIF_ID = 111001100;
@@ -83,6 +80,8 @@ public class NotifierService extends Service {
             }
 
             while(availSlots.size() < 1) {
+
+                Log.println(Log.INFO, "VaccineNotifierService", "No slot found polling again");
 
                 //API to get availability by district for next 7 days
                 //https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=670&date=07-05-2021
@@ -165,8 +164,9 @@ public class NotifierService extends Service {
 
             }
 
-            //TODO Notify the user of available slot
+            //Notify the user of available slot
             if (availSlots.size() > 1) {
+                Log.println(Log.INFO, "VaccineNotifierService", "Available slot found will notify user now");
                 Intent notificationIntent = new Intent(getApplicationContext(), VacineSlotActivity.class);
                 notificationIntent.putExtra("availSlotsArray", availSlots.toArray());
                 notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
