@@ -20,6 +20,7 @@ OR
 3) Use a file browser and navigate to your download folder. Tap the APK to begin the installation process.
 4) The app should safely install.
 
+For any feedback, issues, enhancement requests please create a GitHub issue or https://twitter.com/The_RahulTiwari
 
 #App Screenshots
 
